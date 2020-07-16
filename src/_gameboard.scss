@@ -1,0 +1,17 @@
+.gameboard-board {
+  text-align: center;
+  font-size: 1.5em;
+
+  h1 {
+    margin: 20px 0;
+  }
+}
+
+.gameboard-grid {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+
+  .row-1 {
+    border: none;
+  }
+}
