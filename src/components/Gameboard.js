@@ -7,8 +7,10 @@ import Calculate from './Calculate'
 function Gameboard() {
   const [boardSquares, setBoardSquares] = useState(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState(true)
-
+  const [xWins, setXWins] = useState(0)
+  const [yWins, setYWins] = useState(0)
   let squares = [...boardSquares]
+
 
   let indexArr = boardSquares.map((ele, i, arr) => {
     if (ele === null) {
@@ -16,8 +18,12 @@ function Gameboard() {
     }
   }).filter(x => x !== undefined)
 
-  const isMounted = useRef(false);
+  // useEffect(() => {
+  //   console.log(xWins, yWins)
+  // })
 
+
+  const isMounted = useRef(false);
   useEffect(() => {
     if (isMounted.current && winner === null) {
       compMove()
@@ -25,6 +31,7 @@ function Gameboard() {
       isMounted.current = true
     }
   }, [xIsNext])
+
 
   const handleClick = index => {
     squares = [...boardSquares]
@@ -38,24 +45,38 @@ function Gameboard() {
     setXIsNext(!xIsNext)
   }
 
+
   const compMove = () => {
     setTimeout(() => {
       let randomIndex = indexArr[Math.floor(Math.random() * indexArr.length)]
-      console.log(randomIndex)
+
       squares[randomIndex] = 'O'
       setBoardSquares(squares)
       setXIsNext(xIsNext)
     }, 1000)
   }
 
+
+  const resetGame = () => {
+    setBoardSquares(Array(9).fill(null))
+  }
+
+
   //create a rendersquare function
   const renderSquare = index => {
     return <Button value={boardSquares[index]} onClick={() => handleClick(index)} />
   }
 
+
   let status
-  const winner = Calculate(boardSquares)
-  status = winner ? `Winner is ${winner}` : `Next player is: ${xIsNext ? 'X' : 'O'}`
+  let winner = Calculate(boardSquares)
+
+  status = winner ?
+    `Winner is ${winner}` :
+    winner === null && !boardSquares.includes(null) ?
+      `No Winner` :
+      `Next player is: ${xIsNext ? 'X' : 'O'}`
+
 
   return (
     <div className='gameboard-board'>
@@ -66,6 +87,7 @@ function Gameboard() {
         <div className='row-3'>{renderSquare(6)}{renderSquare(7)}{renderSquare(8)}</div>
       </div>
       <h1>{status}</h1>
+      <button onClick={() => resetGame()}>RESET</button>
     </div>
   )
 }
