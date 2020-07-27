@@ -1,15 +1,29 @@
 .gameboard-board {
   text-align: center;
   font-size: 1.5em;
+  // border: solid red;
 
   h1 {
     margin: 20px 0;
+    font-size: 4rem;
+  }
+
+  button {
+    height: 4rem;
+    width: 13rem;
+    margin-top: 10px;
+    font-size: 2rem;
+    border: solid #CD5C5C;
+    background-color: #080808;
+    color: #F8F8FF;
   }
 }
 
 .gameboard-grid {
   display: grid;
   grid-template-columns: 100px 100px 100px;
+  border: solid #CD5C5C;
+  padding: 20px;
 
   .row-1 {
     border: none;

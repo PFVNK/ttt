@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import Button from './Button'
 import Calculate from './Calculate'
+import Score from './Score'
 
 
 function Gameboard() {
@@ -18,9 +19,12 @@ function Gameboard() {
     }
   }).filter(x => x !== undefined)
 
-  // useEffect(() => {
-  //   console.log(xWins, yWins)
-  // })
+
+  useEffect(() => {
+    console.log(winner)
+    console.log(xWins, yWins)
+  })
+
 
 
   const isMounted = useRef(false);
@@ -58,7 +62,13 @@ function Gameboard() {
 
 
   const resetGame = () => {
+    if (winner && winner === 'X') {
+      setXWins(xWins + 1)
+    } else if (winner && winner === 'O') {
+      setYWins(yWins + 1)
+    }
     setBoardSquares(Array(9).fill(null))
+    setXIsNext(xIsNext)
   }
 
 
@@ -69,7 +79,10 @@ function Gameboard() {
 
 
   let status
+  let buttonStatus
   let winner = Calculate(boardSquares)
+
+  buttonStatus = winner || winner === null && !boardSquares.includes(null) ? 'PLAY AGAIN' : 'RESET'
 
   status = winner ?
     `Winner is ${winner}` :
@@ -80,14 +93,18 @@ function Gameboard() {
 
   return (
     <div className='gameboard-board'>
-      <h1>TIC TAC TOE</h1>
+      <Score
+        xWins={xWins}
+        yWins={yWins}
+      />
+      <h1>TIC - TAC - TOE</h1>
       <div className='gameboard-grid'>
         <div className='row-1'>{renderSquare(0)}{renderSquare(1)}{renderSquare(2)}</div>
         <div className='row-2'>{renderSquare(3)}{renderSquare(4)}{renderSquare(5)}</div>
         <div className='row-3'>{renderSquare(6)}{renderSquare(7)}{renderSquare(8)}</div>
       </div>
       <h1>{status}</h1>
-      <button onClick={() => resetGame()}>RESET</button>
+      <button onClick={() => resetGame()}>{buttonStatus}</button>
     </div>
   )
 }

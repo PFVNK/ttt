@@ -1,0 +1,12 @@
+.score-container {
+  // border: solid red;
+  font-size: 5rem;
+  display: flex;
+  justify-content: flex-end;
+  transform: translate(120%, -50%);
+  width: auto;
+}
+
+.score-number {
+  color: #CD5C5C;
+}
